@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const db = require("./db.js");
+const dummyData = require("../dummydata/CanadianAPISorryEh.js");
 
 const app = express();
 

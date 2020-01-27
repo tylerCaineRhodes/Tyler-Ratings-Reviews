@@ -13,7 +13,13 @@ CREATE TABLE Reviews (
 CREATE TABLE Products (
   id INT AUTO_INCREMENT PRIMARY KEY,
   DESCRIPTION VARCHAR(255),
-  price DECIMAL(18,2)
+  price DECIMAL(18,2),
+  category_id INT
+);
+
+CREATE TABLE Category (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255)
 );
 
 CREATE TABLE Comments (
@@ -84,6 +90,11 @@ ALTER TABLE Reviews
 
 ADD FOREIGN KEY (product_id)
   REFERENCES Products(id);
+
+ALTER TABLE Products
+
+ADD FOREIGN KEY (category_id)
+  REFERENCES Category(id);
  
 
 ALTER TABLE Users

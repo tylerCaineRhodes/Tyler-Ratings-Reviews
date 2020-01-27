@@ -1,4 +1,5 @@
 const mysql = require("mysql");
+const dummyData = require("../dummydata/CanadianAPISorryEh.js");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -15,7 +16,17 @@ connection.connect(err => {
   console.log("now connected to the database!");
 });
 
-const seedDatabase = (data, callback) => {};
+const seedDatabase = (data, callback) => {
+  let count = 0;
+
+  connection.query(
+    `INSERT INTO products (description, price) VALUES ("${data[count][productDescription]}, ${data[count][price]}")`,
+    (err, data) => {
+      if (err) throw err;
+      else callback(null, data);
+    }
+  );
+};
 
 const addTask = (task, callback) => {
   connection.query(
