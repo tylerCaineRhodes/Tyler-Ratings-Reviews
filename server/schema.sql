@@ -12,12 +12,12 @@ CREATE TABLE Reviews (
 
 CREATE TABLE Products (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  DESCRIPTION VARCHAR(255),
+  DESCRIPTION VARCHAR(10000),
   price DECIMAL(18,2),
   category_id INT
 );
 
-CREATE TABLE Category (
+CREATE TABLE Categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255)
 );
@@ -34,13 +34,7 @@ CREATE TABLE Comments (
 
 CREATE TABLE Users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  shopping_cart_id INT
-);
-
-CREATE TABLE Shopping_Carts (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  total INT,
-  user_id INT
+  total INT
 );
 
 CREATE TABLE Uploaded_Images (
@@ -49,16 +43,10 @@ CREATE TABLE Uploaded_Images (
   user_id INT
 );
 
-CREATE TABLE Shopping_Carts_Products (
-  shopping_cart_id INT,
-  product_id INT
-);
-
 CREATE TABLE Users_Products (
   user_id INT,
   product_id INT
 );
-
 
 ALTER TABLE Comments
 
@@ -94,21 +82,9 @@ ADD FOREIGN KEY (product_id)
 ALTER TABLE Products
 
 ADD FOREIGN KEY (category_id)
-  REFERENCES Category(id);
+  REFERENCES Categories(id);
  
 
-ALTER TABLE Users
-
-ADD FOREIGN KEY (shopping_cart_id)
-  REFERENCES Shopping_Carts(id);
-
-
-ALTER TABLE Shopping_Carts
-
-ADD FOREIGN KEY (user_id)
-  REFERENCES Users(id);
-
-
 ALTER TABLE Uploaded_Images
 
 ADD FOREIGN KEY (user_id)
@@ -118,18 +94,6 @@ ALTER TABLE Uploaded_Images
 
 ADD FOREIGN KEY (product_id)
   REFERENCES Products(id);
-
-
-ALTER TABLE Shopping_Carts_Products
-
-ADD FOREIGN KEY (shopping_cart_id)
-  REFERENCES Shopping_Carts(id);
-
-ALTER TABLE Shopping_Carts_Products
-
-ADD FOREIGN KEY (product_id)
-  REFERENCES Products(id);
-
 
 ALTER TABLE Users_Products
 
