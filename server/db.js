@@ -1,7 +1,9 @@
 const mysql = require("mysql");
 const {
   dummyData,
-  categoryDummyData
+  categoryDummyData,
+  userDummyData,
+  reviewDummyData
 } = require("../dummydata/CanadianAPISorryEh");
 
 const connection = mysql.createConnection({
@@ -22,6 +24,7 @@ connection.connect(err => {
 //seedTableUsers();
 //seedTableCategories();
 //seedTableProducts();
+//seedTableReviews();
 
 const seedTableProducts = () => {
   let sql = "INSERT INTO Products (description, price, category_id) VALUES ?";
@@ -33,6 +36,27 @@ const seedTableProducts = () => {
       dummyData[i]["price"],
       dummyData[i]["category_id"]
     ]);
+  }
+
+  connection.query(sql, [values], function(err) {
+    if (err) throw err;
+    connection.end();
+  });
+};
+
+const seedTableReviews = () => {
+  let sql =
+    "INSERT INTO Reviews (user_id, product_id, review_text, rating, date_created) VALUES ?";
+  let values = [];
+
+  for (let j = 0; j < 5; j++) {
+    for (let i = 0; i < dummyData.length; i++) {
+      values.push([
+        dummyData[i]["productDescription"],
+        dummyData[i]["price"],
+        dummyData[i]["category_id"]
+      ]);
+    }
   }
 
   connection.query(sql, [values], function(err) {

@@ -13,6 +13,10 @@ module.exports = {
         test: /\.js?/,
         include: SRC_DIR,
         loader: "babel-loader"
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: "file-loader"
       }
     ]
   }

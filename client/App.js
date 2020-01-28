@@ -1,6 +1,7 @@
 // Importing libraries
 import React from "react";
 import Axios from "axios";
+import StarRatingComponent from "react-star-rating-component";
 import "./App.css";
 
 class App extends React.Component {
@@ -49,6 +50,22 @@ class App extends React.Component {
         >
           Toggle popover
         </a>
+        <StarRatingComponent
+          name="rate2"
+          editing={false}
+          renderStarIcon={() => (
+            <span>
+              <img
+                src="../dist/images/full_leaf.png"
+                alt="test"
+                width="50"
+                height="60"
+              />
+            </span>
+          )}
+          starCount={10}
+          value={8}
+        />
         <div className="board-row"></div>
         <div className="board-row"></div>
       </div>

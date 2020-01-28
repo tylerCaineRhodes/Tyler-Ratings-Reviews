@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, "../dist")));
 app.use(cors());
 app.use(express.json());
 
-app.get("/todo", (req, res) => {
+app.get(`/${currentItem}`, (req, res) => {
   // TODO: add in database function to get array of all todos and res.send the results
   db.getTasks((err, data) => {
     if (err) {

@@ -6,6 +6,7 @@ CREATE TABLE Reviews (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
   product_id INT,
+  review_text VARCHAR(255),
   rating DECIMAL(18,2),
   date_created VARCHAR(255)
 );
