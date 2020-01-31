@@ -1,9 +1,7 @@
 const mysql = require("mysql");
 const {
   dummyData,
-  categoryDummyData,
-  userDummyData,
-  reviewDummyData
+  categoryDummyData
 } = require("../dummydata/CanadianAPISorryEh");
 
 const connection = mysql.createConnection({
@@ -41,11 +39,13 @@ const seedTableCategories = () => {
 //seedTableCategories();
 
 const seedTableProducts = () => {
-  let sql = "INSERT INTO Products (description, price, category_id) VALUES ?";
+  let sql =
+    "INSERT INTO Products (name, description, price, category_id) VALUES ?";
   let values = [];
 
   for (let i = 0; i < dummyData.length; i++) {
     values.push([
+      dummyData[i]["productName"],
       dummyData[i]["productDescription"],
       dummyData[i]["price"],
       dummyData[i]["category_id"]
@@ -60,7 +60,7 @@ const seedTableProducts = () => {
 
 const seedTableReviews = () => {
   let sql =
-    "INSERT INTO Reviews (user_id, product_id, review_text, rating, date_created) VALUES ?";
+    "INSERT INTO Reviews (user_id, product_id, review_title, review_text, rating, date_created) VALUES ?";
   let values = [];
   let fakeRatings = [1, 4, 5, 2, 3];
   let fakeDateCreated = [`Jan 20, 1990`, `Feb 07, 2010`];
@@ -74,12 +74,21 @@ const seedTableReviews = () => {
     `ka is a wheel.`,
     `The blood of the covenant is thicker than the water of the womb`
   ];
+  let fakeReviewTitles = [
+    `Can I be honest?`,
+    `Exquisite`,
+    `Iunno really...`,
+    `Hey there Georgie :)`,
+    `All hail the Crimson King`,
+    `Truth`
+  ];
 
   for (let j = 1; j < 6; j++) {
     for (let i = 1; i < dummyData.length + 1; i++) {
       values.push([
         j,
         i,
+        fakeReviewTitles[i % 6],
         fakeReviews[i % 6],
         fakeRatings[i % 5],
         fakeDateCreated[i % 2]
