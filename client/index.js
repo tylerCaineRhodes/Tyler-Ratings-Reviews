@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import ReviewApp from "./ReviewApp.js";
+import App from "./App.js";
 
-ReactDOM.render(<ReviewApp />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("reviews"));

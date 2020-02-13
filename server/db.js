@@ -5,26 +5,47 @@ const {
 } = require("../dummydata/CanadianAPISorryEh");
 
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
+  host: "mybb.cfpgvexeasco.us-east-2.rds.amazonaws.com",
+  user: "reku68",
   password: "password",
-  database: "Canada_Amazon",
-  insecureAuth: true
+  database: "CanadaAmazon",
+  port: 3306
 });
 
 connection.connect(err => {
   if (err) {
     throw err;
   }
-  console.log("now connected to the database!");
 });
 
 const seedTableUsers = () => {
   let sql = "INSERT INTO Users (total) VALUES ?";
 
-  connection.query(sql, [[[0], [0], [0], [0], [0]]], function(err) {
-    if (err) throw err;
-  });
+  connection.query(
+    sql,
+    [
+      [
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0]
+      ]
+    ],
+    function(err) {
+      if (err) throw err;
+    }
+  );
 };
 
 //seedTableUsers();
@@ -83,17 +104,23 @@ const seedTableReviews = () => {
     `Truth`
   ];
 
-  for (let j = 1; j < 6; j++) {
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  let p = 0;
+  for (let j = 1; j < 16; j++) {
     for (let i = 1; i < dummyData.length + 1; i++) {
       values.push([
         j,
         i,
-        fakeReviewTitles[i % 6],
-        fakeReviews[i % 6],
-        fakeRatings[i % 5],
-        fakeDateCreated[i % 2]
+        fakeReviewTitles[(i + p) % 6],
+        fakeReviews[(i + p) % 6],
+        fakeRatings[(i + p + 2 - getRandomInt(3)) % 5],
+        fakeDateCreated[(i + p) % 2]
       ]);
     }
+    p++;
   }
 
   connection.query(sql, [values], function(err) {
@@ -102,27 +129,11 @@ const seedTableReviews = () => {
 };
 //seedTableReviews();
 
-const addTask = (task, callback) => {
-  connection.query(
-    `INSERT INTO tasks (task) VALUES ("${task}")`,
-    (err, data) => {
-      if (err) throw err;
-      else callback(null, data);
-    }
-  );
-};
+//refactor as 1 query with left join
 
-const deleteTask = (id, callback) => {
-  console.log(id);
-  connection.query(`DELETE FROM tasks WHERE id="${id}"`, (err, data) => {
-    if (err) throw err;
-    else callback(null, data);
-  });
-};
-
-const getCurrentItem = (productID, userID, callback) => {
+const addReview = (reviewData, callback) => {
   connection.query(
-    `SELECT * FROM products WHERE id="${productID}"`,
+    `INSERT INTO Reviews (user_id, product_id, review_title, review_text, rating, date_created) VALUES (${reviewData.user_id}, ${reviewData.product_id}, "${reviewData.review_title}", "${reviewData.review_text}", ${reviewData.rating}, now())`,
     (err, data) => {
       if (err) throw err;
       else {
@@ -132,4 +143,41 @@ const getCurrentItem = (productID, userID, callback) => {
   );
 };
 
-module.exports = { addTask, deleteTask, getCurrentItem };
+const getCurrentItem = (productID, callback) => {
+  connection.query(
+    `SELECT * FROM Products WHERE id="${productID}"`,
+    (err, data1) => {
+      if (err) throw err;
+      else {
+        connection.query(
+          `SELECT AVG(rating), COUNT(rating) FROM Reviews WHERE product_id="${productID}"`,
+          (err, data2) => {
+            if (err) throw err;
+            else {
+              connection.query(
+                `SELECT user_id, review_title, review_text, rating, DATE_FORMAT(date_created , '%b %D, %Y') AS date FROM Reviews WHERE product_id="${productID}" LIMIT 100`,
+                (err, data3) => {
+                  if (err) throw err;
+                  else {
+                    connection.query(
+                      `SELECT COUNT(rating) FROM Reviews WHERE rating=5 AND product_id="${productID}" UNION ALL SELECT COUNT(rating) FROM Reviews WHERE rating=4 AND product_id="${productID}" UNION ALL SELECT COUNT(rating) FROM Reviews WHERE rating=3 AND product_id="${productID}" UNION ALL SELECT COUNT(rating) FROM Reviews WHERE rating=2 AND product_id="${productID}" UNION ALL SELECT COUNT(rating) FROM Reviews WHERE rating=1 AND product_id="${productID}"`,
+                      (err, data4) => {
+                        if (err) throw err;
+                        else {
+                          let data = [data1[0], data2[0], data3, data4];
+                          callback(null, data);
+                        }
+                      }
+                    );
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
+    }
+  );
+};
+
+module.exports = { getCurrentItem, addReview };
