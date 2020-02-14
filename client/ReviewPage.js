@@ -1,6 +1,6 @@
 import React from "react";
 import StarRatingComponent from "react-star-rating-component";
-import EditableRatingComponent from "./EditableLeafRatingComponent";
+import EditableRatingComponent from "./LeafRatingComponent";
 
 let rating, review_title, review_text;
 let ref1 = React.createRef();
