@@ -2,6 +2,26 @@ const mysql = require("mysql");
 const pg = require('pg');
 const faker = require('faker');
 const fs = require('file-system');
+const { Client } = require('pg');
+
+
+const client = new Client({
+    host: 'localhost',
+    user: 'postgres',
+    password: 'password',
+    database: 'Canada_Amazon',
+    port: 5432,
+});
+
+client.connect(err => {
+  if(err){
+    console.log('naah dude ur not connected to db yet');
+  } else {
+    console.log('oh wait, u did it actually');
+  }
+});
+
+
 // let [randomName, randomDescription, randomPrice] = [faker.name.findName(), faker.lorem.sentence(), faker.lorem.sentence()];
 // const {
 //   dummyData,
@@ -32,13 +52,27 @@ fs.readFile('./server/jsonData', function(err, data){
     console.log('naahhh, that didn\'t work dawg');
   } else {
     let dataArray = JSON.parse(data);
-    console.log(dataArray[0]);
+    // console.log(dataArray[0]);
 
     for(let i = 0; i < dataArray.length; i++){
-      connection.query(`INSERT INTO Products (name, DESCRIPTION, price) VALUES ("${dataArray[i].name}", "${dataArray[i].DESCRIPTION}", ${dataArray[i].price})`, function(err) {
-        if (err) throw err;
+  
+      client.query(`INSERT INTO products (name, description, price) VALUES ('${dataArray[i].name}', '${dataArray[i].DESCRIPTION}', ${dataArray[i].price});`, function(err) {
+        if (err){
+          // console.log(dataArray[i].name);
+          throw err;
+        } else {
+          console.log('uuuuuuuuuuuuuuauarrgr g yeaaahah seeded');
+        }
       });
     }
+  }
+})
+
+client.query("Insert into products(name) values ('sager');", function(err){
+  if(err){
+    console.log('yo this also no work')
+  } else {
+    console.log('yeh')
   }
 })
 
