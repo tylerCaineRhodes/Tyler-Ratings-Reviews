@@ -40,41 +40,44 @@ const generateFakeData = function(){
 }
 let fake = JSON.stringify(generateFakeData());
 
-fs.writeFile('./server/jsonData', fake, function(err){
+fs.writeFile('./server/jsonDataProducts', fake, function(err){
   if(err){
     return console.log(err);
   }
   console.log('file was saved!');
 });
 
-fs.readFile('./server/jsonData', function(err, data){
+fs.readFile('./server/jsonDataProducts', function(err, data){
   if(err){
     console.log('naahhh, that didn\'t work dawg');
   } else {
     let dataArray = JSON.parse(data);
-    // console.log(dataArray[0]);
+    console.log(dataArray[0]);
 
+    
     for(let i = 0; i < dataArray.length; i++){
-  
-      client.query(`INSERT INTO products (name, description, price) VALUES ('${dataArray[i].name}', '${dataArray[i].DESCRIPTION}', ${dataArray[i].price});`, function(err) {
+    
+      client.query('INSERT INTO products (name, description, price) VALUES($1, $2, $3)', [dataArray[i].name, dataArray[i].DESCRIPTION, dataArray[i].price], function(err) {
         if (err){
-          // console.log(dataArray[i].name);
+          console.log(dataArray[i]);
           throw err;
-        } else {
-          console.log('uuuuuuuuuuuuuuauarrgr g yeaaahah seeded');
         }
       });
     }
   }
 })
 
-client.query("Insert into products(name) values ('sager');", function(err){
-  if(err){
-    console.log('yo this also no work')
-  } else {
-    console.log('yeh')
-  }
-})
+// "INSERT INTO products (name, description, price) values ('" + dataArray[i].name + "', '" + dataArray[i].DESCRIPTION + "', " + dataArray[i].price + ");"
+// "INSERT INTO products (name, description, price) values (`" + dataArray[i].name + "`, `" + dataArray[i].DESCRIPTION + "`, " + dataArray[i].price + ");"
+// `INSERT INTO products (name, description, price) VALUES ('${dataArray[i].name}', '${dataArray[i].DESCRIPTION}', ${dataArray[i].price});`
+
+// client.query("Insert into products(name) values ('sager');", function(err){
+//   if(err){
+//     console.log('yo this also no work')
+//   } else {
+//     console.log('yeh')
+//   }
+// })
 
 // const connection = mysql.createConnection({
 //   host: "localhost",
