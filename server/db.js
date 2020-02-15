@@ -21,51 +21,91 @@ client.connect(err => {
   }
 });
 
+// const createFakeData =() => {
+//   const generateFakeData = function(){
+//     let json = [];
+//     for(var i =0; i < 10000; i++){
+//       let obj = {};
+//       obj['name'] = faker.name.findName();
+//       obj['DESCRIPTION'] = faker.lorem.sentence();
+//       obj['price'] = faker.finance.amount();
+//       json[i] = obj;
+//     }
+//     return json;
+//   }
+//   let fake = JSON.stringify(generateFakeData());
+  
+//   fs.writeFileSync('./server/jsonDataProducts', fake, function(err){
+//     if(err){
+//       return console.log(err);
+//     }
+//     console.log('file was saved!');
+//   });
+//   //needs to wait
+//   fs.readFile('./server/jsonDataProducts', function(err, data){
+//     if(err){
+//       console.log('naahhh, that didn\'t work dawg');
+//       reject(err)
+//     } else {
+//       let dataArray = JSON.parse(data);
+//       // console.log(dataArray[0]);
+//       for(let i = 0; i < dataArray.length; i++){
+//         client.query('INSERT INTO products (name, description, price) VALUES($1, $2, $3)', [dataArray[i].name, dataArray[i].DESCRIPTION, dataArray[i].price], function(err) {
+//           if (err){
+//             console.log(dataArray[i]);
+//             throw err;
+//           } else {
+//             console.log(`queried ${i} times`)
+//           }
+//         });
+//       }
+//     }
+//   })
+// }
 
-// let [randomName, randomDescription, randomPrice] = [faker.name.findName(), faker.lorem.sentence(), faker.lorem.sentence()];
-// const {
-//   dummyData,
-//   categoryDummyData
-// } = require("../dummydata/CanadianAPISorryEh");
-const generateFakeData = function(){
-  let json = [];
-  for(var i =0; i < 1000; i++){
-    let obj = {};
-    obj['name'] = faker.name.findName();
-    obj['DESCRIPTION'] = faker.lorem.sentence();
-    obj['price'] = faker.finance.amount();
-    json[i] = obj;
-  }
-  return json;
-}
-let fake = JSON.stringify(generateFakeData());
 
-fs.writeFile('./server/jsonDataProducts', fake, function(err){
-  if(err){
-    return console.log(err);
-  }
-  console.log('file was saved!');
-});
+// for(let i = 0; i < 100; i++){
+//   console.log('itration # ->', i)
+//   createFakeData();
+//  }
 
-fs.readFile('./server/jsonDataProducts', function(err, data){
-  if(err){
-    console.log('naahhh, that didn\'t work dawg');
-  } else {
-    let dataArray = JSON.parse(data);
-    console.log(dataArray[0]);
-
-    
-    for(let i = 0; i < dataArray.length; i++){
-    
-      client.query('INSERT INTO products (name, description, price) VALUES($1, $2, $3)', [dataArray[i].name, dataArray[i].DESCRIPTION, dataArray[i].price], function(err) {
-        if (err){
-          console.log(dataArray[i]);
-          throw err;
-        }
-      });
-    }
-  }
+const createFakeProduct =() => ({
+  name:faker.name.findName(),
+  description:faker.lorem.sentence(),
+  price:faker.finance.amount(),
 })
+
+const seed = function() {
+  // let listOfProducts = [];
+  for(let i = 0; i < desiredProducts; i++){
+    // listOfProducts.push(createFakeProduct())
+    client.query('INSERT INTO products (name, description, price) VALUES($1, $2, $3)', [createFakeProduct().name, createFakeProduct().description, createFakeProduct().price], function(err) {
+      if (err){
+        console.log('nah ----->', dataArray[i]);
+        throw err;
+      } else {
+        console.log(`queried ${i} times`)
+      }
+    });
+  }
+}
+seed()
+
+
+//  async function processArray() {
+//   for(let i = 0; i < 100; i++){
+//     await createFakeData();
+//     console.log('itration # ->', i)
+//    }
+// }
+// processArray()
+
+// const test = generateFakeData();
+// console.log(test[0]);
+
+
+
+
 
 // "INSERT INTO products (name, description, price) values ('" + dataArray[i].name + "', '" + dataArray[i].DESCRIPTION + "', " + dataArray[i].price + ");"
 // "INSERT INTO products (name, description, price) values (`" + dataArray[i].name + "`, `" + dataArray[i].DESCRIPTION + "`, " + dataArray[i].price + ");"
