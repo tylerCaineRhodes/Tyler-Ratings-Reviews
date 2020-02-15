@@ -69,27 +69,27 @@ client.connect(err => {
 //   createFakeData();
 //  }
 
-const createFakeProduct =() => ({
-  name:faker.name.findName(),
-  description:faker.lorem.sentence(),
-  price:faker.finance.amount(),
-})
+// const createFakeProduct =() => ({
+//   name:faker.name.findName(),
+//   description:faker.lorem.sentence(),
+//   price:faker.finance.amount(),
+// })
 
-const seed = function() {
-  // let listOfProducts = [];
-  for(let i = 0; i < desiredProducts; i++){
-    // listOfProducts.push(createFakeProduct())
-    client.query('INSERT INTO products (name, description, price) VALUES($1, $2, $3)', [createFakeProduct().name, createFakeProduct().description, createFakeProduct().price], function(err) {
-      if (err){
-        console.log('nah ----->', dataArray[i]);
-        throw err;
-      } else {
-        console.log(`queried ${i} times`)
-      }
-    });
-  }
-}
-seed()
+// const seed = function() {
+//   // let listOfProducts = [];
+//   for(let i = 0; i < desiredProducts; i++){
+//     // listOfProducts.push(createFakeProduct())
+//     client.query('INSERT INTO products (name, description, price) VALUES($1, $2, $3)', [createFakeProduct().name, createFakeProduct().description, createFakeProduct().price], function(err) {
+//       if (err){
+//         console.log('nah ----->', dataArray[i]);
+//         throw err;
+//       } else {
+//         console.log(`queried ${i} times`)
+//       }
+//     });
+//   }
+// }
+// seed()
 
 
 //  async function processArray() {
@@ -174,13 +174,13 @@ seed()
 // };
 //seedTableCategories();
 
-const seedTableProducts = () => {
-  for(let i = 0; i < 1; i++){
-    connection.query(`INSERT INTO Products (name, DESCRIPTION, price) VALUES ("${faker.name.findName()}", "${faker.lorem.words()}", ${faker.finance.amount()})`, function(err) {
-      if (err) throw err;
-    });
-  }
-};
+// const seedTableProducts = () => {
+//   for(let i = 0; i < 1; i++){
+//     connection.query(`INSERT INTO Products (name, DESCRIPTION, price) VALUES ("${faker.name.findName()}", "${faker.lorem.words()}", ${faker.finance.amount()})`, function(err) {
+//       if (err) throw err;
+//     });
+//   }
+// };
 // seedTableProducts();
 
 // const seedTableReviews = () => {

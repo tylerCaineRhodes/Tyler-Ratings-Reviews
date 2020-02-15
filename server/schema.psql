@@ -1,0 +1,46 @@
+CREATE TABLE Categories (
+  id serial PRIMARY KEY,
+  name VARCHAR(255)
+);
+
+CREATE TABLE Users (
+  id serial PRIMARY KEY,
+  total INTEGER
+);
+
+CREATE TABLE Products (
+  id serial PRIMARY KEY,
+  name VARCHAR(800),
+  DESCRIPTION VARCHAR(10000),
+  price DECIMAL(18,2),
+  category_id INTEGER REFERENCES Categories(id)
+);
+
+CREATE TABLE Reviews (
+  id serial PRIMARY KEY,
+  user_id INTEGER references Users(id),
+  product_id INTEGER REFERENCES Products(id),
+  review_title VARCHAR(80),
+  review_text VARCHAR(255),
+  rating DECIMAL(18,2),
+  date_created date not null default current_date
+);
+
+
+CREATE TABLE Comments (
+  id serial PRIMARY KEY,
+  comment_text VARCHAR(255),
+  user_id INTEGER references Users(id),
+  review_id INTEGER references Reviews(id),
+  date_created VARCHAR(255),
+  parent_comment_id INTEGER references Comments(id),
+  child_comment_id INTEGER references Comments(id)
+);
+
+
+
+CREATE TABLE Uploaded_Images (
+  id serial PRIMARY KEY,
+  product_id INTEGER references Products(id),
+  user_id INTEGER references Users(id)
+);
