@@ -6,11 +6,13 @@ const db = require("./db.js");
 var bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-mongoose.connect("mongodb://localhost/CANADA_AMAZON");
+mongoose.connect("mongodb://localhost/CANADA_AMAZON", {
+  useNewUrlParser: true
+});
 
 const mongoCommand = mongoose.connection;
 mongoCommand.once('open', ()=>{
-  console.log('connected to the mongo database')
+  console.log('connected to the mongo database, yo')
 })
 
 mongoCommand.on('error', ()=>{
