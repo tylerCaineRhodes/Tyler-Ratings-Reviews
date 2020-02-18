@@ -2,24 +2,24 @@ const mysql = require("mysql");
 const mongoose = require('mongoose');
 const faker = require('faker');
 const fs = require('file-system');
-const { Client } = require('pg');
+// const { Client } = require('pg');
 
 
-const client = new Client({
-    host: 'localhost',
-    user: 'postgres',
-    password: 'password',
-    database: 'Canada_Amazon',
-    port: 5432,
-});
+// const client = new Client({
+//     host: 'localhost',
+//     user: 'postgres',
+//     password: 'password',
+//     database: 'Canada_Amazon',
+//     port: 5432,
+// });
 
-client.connect(err => {
-  if(err){
-    console.log('naah dude ur not connected to db yet');
-  } else {
-    console.log('oh wait, u did it actually');
-  }
-});
+// client.connect(err => {
+//   if(err){
+//     console.log('naah dude ur not connected to db yet');
+//   } else {
+//     console.log('oh wait, u did it actually');
+//   }
+// });
 
 // const createFakeData =() => {
 //   const generateFakeData = function(){
