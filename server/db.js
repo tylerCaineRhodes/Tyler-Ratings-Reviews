@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-const pg = require('pg');
+const mongoose = require('mongoose');
 const faker = require('faker');
 const fs = require('file-system');
 const { Client } = require('pg');
