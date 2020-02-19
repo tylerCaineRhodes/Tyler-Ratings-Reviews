@@ -21,7 +21,6 @@ client.connect(err => {
   }
 });
 
-
 const addReview = (reviewData, callback) => {
   client.query(
     `INSERT INTO Reviews (user_id, product_id, review_title, review_text, rating, date_created) VALUES (${reviewData.user_id}, ${reviewData.product_id}, "${reviewData.review_title}", "${reviewData.review_text}", ${reviewData.rating}, now())`,
@@ -34,11 +33,18 @@ const addReview = (reviewData, callback) => {
   );
 };
 
-
-
+const getCurrentProduct = (callback) => {
+  client.query(`select * from products limit 10`, (err, data) => {
+    if(err){
+      console.log('nah, you can\'t get the products dawg');
+    } else {
+      callback(null, data);
+    }
+  })
+}
 
 const getCurrentItem = (callback) => {
-  client.query(`select * from reviews limit 50`, (err, data) => {
+  client.query(`select * from reviews limit 10`, (err, data) => {
     if(err){
       console.log('nah, you can\'t get the shit from postgres dawg');
     } else {
@@ -82,4 +88,4 @@ const getCurrentItem = (callback) => {
 //   );
 // };
 
-module.exports = { getCurrentItem, addReview };
+module.exports = {getCurrentItem, addReview, getCurrentProduct};

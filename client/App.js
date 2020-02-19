@@ -14,6 +14,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentProduct: [],
       currentItem: { id: 3 },
       currentReviewWord: null,
       currentReviewOrder: "random"
@@ -23,38 +24,47 @@ class App extends React.Component {
     this.url = `http://canadaamazon-env.28zuhv6c2t.us-east-2.elasticbeanstalk.com/`;
 
     this.handleGetCurrentItem = this.handleGetCurrentItem.bind(this);
-    this.handleCommentReviews = this.handleCommentReviews.bind(this);
-    this.handleSortReviewsByKeyword = this.handleSortReviewsByKeyword.bind(
-      this
-    );
-    this.handleSortReviewsByRating = this.handleSortReviewsByRating.bind(this);
-    this.handleStartReview = this.handleStartReview.bind(this);
-    this.handleSubmitReview = this.handleSubmitReview.bind(this);
-    this.handleUploadImages = this.handleUploadImages.bind(this);
-    this.grabReviewData = this.grabReviewData.bind(this);
+    // this.handleCommentReviews = this.handleCommentReviews.bind(this);
+    // this.handleSortReviewsByKeyword = this.handleSortReviewsByKeyword.bind(
+    //   this
+    // );
+    // this.handleSortReviewsByRating = this.handleSortReviewsByRating.bind(this);
+    // this.handleStartReview = this.handleStartReview.bind(this);
+    // this.handleSubmitReview = this.handleSubmitReview.bind(this);
+    // this.handleUploadImages = this.handleUploadImages.bind(this);
+    // this.grabReviewData = this.grabReviewData.bind(this);
+    this.handleGetCurrentProduct = this.handleGetCurrentProduct.bind(this);
   }
 
   handleGetCurrentItem() {
     //'http://localhost:8081/dist'
     Axios.get('http://localhost:8081/dist').then(currentItem => {
-      console.log(currentItem.data.rows);
+      console.log('here is current review -->', currentItem.data.rows);
       let betterCurrentItem = {
         id: currentItem.data.rows[0].id,
-        name: currentItem.data.rows[0]["name"],
+        name: currentItem.data.rows[0].review_title,
         description: currentItem.data.rows[0]["DESCRIPTION"],
-        price: currentItem.data[0].rows["price"],
+        price: currentItem.data[0]["price"],
         category_id: currentItem.data.rows[0]["category_id"],
-        rating: currentItem.data[1]["AVG(rating)"],
-        totalReviews: currentItem.data[1]["COUNT(rating)"],
+        rating: currentItem.data.rows[1]["AVG(rating)"],
+        totalReviews: currentItem.data.rows[1]["COUNT(rating)"],
         reviews: currentItem.data[2],
-        fiveLeafReviews: currentItem.data[3][0]["COUNT(rating)"],
-        fourLeafReviews: currentItem.data[3][1]["COUNT(rating)"],
-        threeLeafReviews: currentItem.data[3][2]["COUNT(rating)"],
-        twoLeafReviews: currentItem.data[3][3]["COUNT(rating)"],
-        oneLeafReviews: currentItem.data[3][4]["COUNT(rating)"]
+        fiveLeafReviews: currentItem.data.rows[3][0]["COUNT(rating)"],
+        fourLeafReviews: currentItem.data.rows[3][1]["COUNT(rating)"],
+        threeLeafReviews: currentItem.data.rows[3][2]["COUNT(rating)"],
+        twoLeafReviews: currentItem.data.rows[3][3]["COUNT(rating)"],
+        oneLeafReviews: currentItem.data.rows[3][4]["COUNT(rating)"]
       };
       this.setState({ currentItem: betterCurrentItem });
     });
+  }
+  handleGetCurrentProduct(){
+    Axios.get('http://localhost:8081/notdist').then(currentProduct => {
+      console.log('current product --->', currentProduct.data.rows);
+    }).catch(err => {
+      console.log('nah dood' , err)
+    })
+    //this is gonna fetch the product info
   }
 
   grabReviewData(reviewData, cb) {
@@ -111,10 +121,11 @@ class App extends React.Component {
         );
       }
     });
-
-    this.handleGetCurrentItem(
-      `${this.url}dist/?productID=${this.state.currentItem.id}`
-    );
+    // this.handleGetCurrentItem(
+    //   `${this.url}dist/?productID=${this.state.currentItem.id}`
+    // );
+    this.handleGetCurrentProduct();
+    this.handleGetCurrentItem();
   }
 
   render() {

@@ -22,6 +22,18 @@ app.get("/dist", urlencodedParser, (req, res) => {
     }
   });
 });
+app.get("/notdist", urlencodedParser, (req, res) => {
+  db.getCurrentProduct((err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      res.send(data);
+      //req.query.productID
+    }
+  });
+});
+
+
 
 app.post("/add_review", urlencodedParser, (req, res) => {
   console.log(req.body);
