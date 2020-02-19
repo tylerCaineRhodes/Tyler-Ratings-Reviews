@@ -13,11 +13,12 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/dist", urlencodedParser, (req, res) => {
-  db.getCurrentItem(req.query.productID, (err, data) => {
+  db.getCurrentItem((err, data) => {
     if (err) {
       console.error(err);
     } else {
       res.send(data);
+      //req.query.productID
     }
   });
 });

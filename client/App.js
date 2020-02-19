@@ -34,15 +34,16 @@ class App extends React.Component {
     this.grabReviewData = this.grabReviewData.bind(this);
   }
 
-  handleGetCurrentItem(url) {
-    Axios.get(url).then(currentItem => {
-      console.log(currentItem);
+  handleGetCurrentItem() {
+    //'http://localhost:8081/dist'
+    Axios.get('http://localhost:8081/dist').then(currentItem => {
+      console.log(currentItem.data.rows);
       let betterCurrentItem = {
-        id: currentItem.data[0]["id"],
-        name: currentItem.data[0]["name"],
-        description: currentItem.data[0]["DESCRIPTION"],
-        price: currentItem.data[0]["price"],
-        category_id: currentItem.data[0]["category_id"],
+        id: currentItem.data.rows[0].id,
+        name: currentItem.data.rows[0]["name"],
+        description: currentItem.data.rows[0]["DESCRIPTION"],
+        price: currentItem.data[0].rows["price"],
+        category_id: currentItem.data.rows[0]["category_id"],
         rating: currentItem.data[1]["AVG(rating)"],
         totalReviews: currentItem.data[1]["COUNT(rating)"],
         reviews: currentItem.data[2],
@@ -101,10 +102,10 @@ class App extends React.Component {
         !isNaN(event.target.getAttribute("data-id"))
       ) {
         this.setState(
-          { currentItem: { id: event.target.getAttribute("data-id") } },
+          // { currentItem: { id: event.target.getAttribute("data-id") } },
           () => {
             this.handleGetCurrentItem(
-              `${this.url}dist/?productID=${this.state.currentItem.id}`
+              `/dist`
             );
           }
         );
