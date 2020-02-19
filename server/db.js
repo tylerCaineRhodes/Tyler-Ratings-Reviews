@@ -28,14 +28,25 @@ mongoCommand.on('error', ()=>{
 //   })
 // }
 const getCurrentItem = (callback) => {
-  Data.find().limit(20).exec((err, data) => {
+  Data.find({id: 100000}, (err, data) => {
     if(err){
       console.log('nah can\'t get the stuff from mongo from db')
     } else {
       callback(null, data);
     }
-  })
+  }).explain("executionStats")
 }
+
+// const getCurrentItem = (callback) => {
+//   Data.find().limit(20).exec((err, data) => {
+//     if(err){
+//       console.log('nah can\'t get the stuff from mongo from db')
+//     } else {
+//       callback(null, data);
+//     }
+//   })
+// }
+//.explain("executionStats")
 
 const addReview = (reviewData, callback) => {
   connection.query(

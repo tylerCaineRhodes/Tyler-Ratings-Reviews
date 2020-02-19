@@ -18,7 +18,7 @@ app.get("/dist", urlencodedParser, (req, res) => {
     if (err) {
       console.error(err);
     } else {
-      console.log(data)
+      // console.log(data)
       res.send(data);
     }
   });
