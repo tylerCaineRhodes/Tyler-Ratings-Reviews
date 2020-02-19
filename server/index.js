@@ -13,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/dist", urlencodedParser, (req, res) => {
+  console.log('should be three -->', req.query.productID)
   db.getCurrentItem((err, data) => {
     if (err) {
       console.error(err);

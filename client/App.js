@@ -38,24 +38,24 @@ class App extends React.Component {
 
   handleGetCurrentItem() {
     //'http://localhost:8081/dist'
-    Axios.get('http://localhost:8081/dist').then(currentItem => {
+    Axios.get(`/dist`).then(currentItem => {
       console.log('here is current review -->', currentItem.data.rows);
-      let betterCurrentItem = {
-        id: currentItem.data.rows[0].id,
-        name: currentItem.data.rows[0].review_title,
-        description: currentItem.data.rows[0]["DESCRIPTION"],
-        price: currentItem.data[0]["price"],
-        category_id: currentItem.data.rows[0]["category_id"],
-        rating: currentItem.data.rows[1]["AVG(rating)"],
-        totalReviews: currentItem.data.rows[1]["COUNT(rating)"],
-        reviews: currentItem.data[2],
-        fiveLeafReviews: currentItem.data.rows[3][0]["COUNT(rating)"],
-        fourLeafReviews: currentItem.data.rows[3][1]["COUNT(rating)"],
-        threeLeafReviews: currentItem.data.rows[3][2]["COUNT(rating)"],
-        twoLeafReviews: currentItem.data.rows[3][3]["COUNT(rating)"],
-        oneLeafReviews: currentItem.data.rows[3][4]["COUNT(rating)"]
-      };
-      this.setState({ currentItem: betterCurrentItem });
+    //   let betterCurrentItem = {
+    //     id: currentItem.data.rows[0].id,
+    //     name: currentItem.data.rows[0].review_title,
+    //     description: currentItem.data.rows[0]["DESCRIPTION"],
+    //     price: currentItem.data[0]["price"],
+    //     category_id: currentItem.data.rows[0]["category_id"],
+    //     rating: currentItem.data.rows[1]["AVG(rating)"],
+    //     totalReviews: currentItem.data.rows[1]["COUNT(rating)"],
+    //     reviews: currentItem.data[2],
+    //     fiveLeafReviews: currentItem.data.rows[3][0]["COUNT(rating)"],
+    //     fourLeafReviews: currentItem.data.rows[3][1]["COUNT(rating)"],
+    //     threeLeafReviews: currentItem.data.rows[3][2]["COUNT(rating)"],
+    //     twoLeafReviews: currentItem.data.rows[3][3]["COUNT(rating)"],
+    //     oneLeafReviews: currentItem.data.rows[3][4]["COUNT(rating)"]
+    //   };
+    //   this.setState({ currentItem: betterCurrentItem });
     });
   }
   handleGetCurrentProduct(){
@@ -112,7 +112,7 @@ class App extends React.Component {
         !isNaN(event.target.getAttribute("data-id"))
       ) {
         this.setState(
-          // { currentItem: { id: event.target.getAttribute("data-id") } },
+          { currentItem: { id: event.target.getAttribute("data-id") } },
           () => {
             this.handleGetCurrentItem(
               `/dist`
@@ -121,11 +121,11 @@ class App extends React.Component {
         );
       }
     });
-    // this.handleGetCurrentItem(
-    //   `${this.url}dist/?productID=${this.state.currentItem.id}`
-    // );
+    this.handleGetCurrentItem(
+      // `dist/?productID=${this.state.currentItem.id}`
+    );
     this.handleGetCurrentProduct();
-    this.handleGetCurrentItem();
+    // this.handleGetCurrentItem();
   }
 
   render() {
