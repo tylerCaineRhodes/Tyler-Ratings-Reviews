@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const db = require("./db.js");
+const redis = require("redis");
 var bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const compression = require('compression');
@@ -16,25 +17,38 @@ app.use(compression());
 
 app.get("/dist", urlencodedParser, (req, res) => {
   // console.log('should be three -->', req.query.productID)
-  db.getCurrentItem((err, data) => {
-    if (err) {
-      console.error(err);
-    } else {
-      res.send(data);
-      //req.query.productID
-    }
-  });
+  return db.getCurrentItem()
+    .then(item => {
+      res.send(item)
+    })
+    .catch(err => {
+      console.log('nah man', err)
+    })
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get("/notdist", urlencodedParser, (req, res) => {
-  db.getCurrentProduct((err, data) => {
-    if (err) {
-      console.error(err);
-    } else {
-      res.send(data);
-      //req.query.productID
-    }
-  });
+  return db.getCurrentProduct()
+    .then(data => {
+      res.send(data)
+    })
+    .catch(err => {
+      res.send(err)
+    });
 });
 
 

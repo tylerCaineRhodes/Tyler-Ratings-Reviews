@@ -33,23 +33,39 @@ const addReview = (reviewData, callback) => {
   );
 };
 
-const getCurrentProduct = (callback) => {
-  client.query(`select * from products limit 10`, (err, data) => {
-    if(err){
-      console.log('nah, you can\'t get the products dawg');
-    } else {
-      callback(null, data);
-    }
+// const getCurrentProduct = (callback) => {
+//   client.query(`select * from products limit 10`, (err, data) => {
+//     if(err){
+//       console.log('nah, you can\'t get the products dawg');
+//     } else {
+//       callback(null, data);
+//     }
+//   })
+// }
+const getCurrentProduct = () => {
+  return new Promise ((resolve, reject) => {
+    client.query(`select * from products limit 10`, (err, data) => {
+      if(err){
+        reject(err);
+        console.log('nah, you can\'t get the products dawg');
+      } else {
+        resolve(data);
+      }
+    })
   })
-}
+};
 
-const getCurrentItem = (callback) => {
-  client.query(`select * from reviews limit 10 offset 100000`, (err, data) => {
-    if(err){
-      console.log('nah, you can\'t get the shit from postgres dawg');
-    } else {
-      callback(null, data);
-    }
+
+const getCurrentItem = () => {
+  return new Promise((resolve, reject)=> {
+    client.query(`select * from reviews limit 10 offset 100000`, (err, data) => {
+      if(err){
+        reject(err)
+        console.log('nah, you can\'t get the shit from postgres dawg');
+      } else {
+        resolve(data);
+      }
+    })
   })}
 
 module.exports = {getCurrentItem, addReview, getCurrentProduct};
