@@ -25,6 +25,7 @@ app.get("/dist", urlencodedParser, (req, res) => {
     }
   });
 });
+
 app.get("/notdist", urlencodedParser, (req, res) => {
   db.getCurrentProduct((err, data) => {
     if (err) {

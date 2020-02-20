@@ -19,7 +19,6 @@ class App extends React.Component {
       currentReviewWord: null,
       currentReviewOrder: "random"
     };
-
     // this url needs to be the deployment address
     this.url = `http://canadaamazon-env.28zuhv6c2t.us-east-2.elasticbeanstalk.com/`;
 
@@ -64,7 +63,6 @@ class App extends React.Component {
     }).catch(err => {
       console.log('nah dood' , err)
     })
-    //this is gonna fetch the product info
   }
 
   grabReviewData(reviewData, cb) {

@@ -51,41 +51,5 @@ const getCurrentItem = (callback) => {
       callback(null, data);
     }
   })}
-// const getCurrentItem = (productID, callback) => {
-//   client.query(
-//     `SELECT * FROM products WHERE id = '${productID}'`,
-//     (err, data1) => {
-//       if (err){console.log('poop on your face',err)}
-//       else {
-//         client.query(
-//           `SELECT AVG(rating), COUNT(rating) FROM Reviews WHERE product_id='${productID}'`,
-//           (err, data2) => {
-//             if (err) {console.log('poop on your 2nd face')}
-//             else {
-//               client.query(
-//                 `SELECT user_id, review_title, review_text, rating, DATE_FORMAT(date_created , '%b %D, %Y') AS date FROM Reviews WHERE product_id='${productID}' LIMIT 100`,
-//                 (err, data3) => {
-//                   if (err) (console.log('poop on your 3rd face'))
-//                   else {
-//                     client.query(
-//                       `SELECT COUNT(rating) FROM Reviews WHERE rating=5 AND product_id='${productID}' UNION ALL SELECT COUNT(rating) FROM Reviews WHERE rating=4 AND product_id='${productID}' UNION ALL SELECT COUNT(rating) FROM Reviews WHERE rating=3 AND product_id='${productID}' UNION ALL SELECT COUNT(rating) FROM Reviews WHERE rating=2 AND product_id='${productID}' UNION ALL SELECT COUNT(rating) FROM Reviews WHERE rating=1 AND product_id='${productID}'`,
-//                       (err, data4) => {
-//                         if (err) {console.log('poop on your fourth face')}
-//                         else {
-//                           let data = [data1[0], data2[0], data3, data4];
-//                           callback(null, data);
-//                         }
-//                       }
-//                     );
-//                   }
-//                 }
-//               );
-//             }
-//           }
-//         );
-//       }
-//     }
-//   );
-// };
 
 module.exports = {getCurrentItem, addReview, getCurrentProduct};
