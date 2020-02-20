@@ -5,10 +5,14 @@ const db = require("./db.js");
 var bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const compression = require('compression');
+const redis = require('redis');
+const client = redis.createClient();
+const responseTime = require('response-time');
+
 
 const PORT = 8081;
 const app = express();
-
+app.use(responseTime());
 app.use(express.static(path.join(__dirname, "../dist")));
 app.use(cors());
 app.use(express.json());
@@ -35,8 +39,7 @@ app.get("/notdist", urlencodedParser, (req, res) => {
       //req.query.productID
     }
   });
-});
-
+})
 
 app.post("/add_review", urlencodedParser, (req, res) => {
   console.log(req.body);
