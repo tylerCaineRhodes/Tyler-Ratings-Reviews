@@ -24,16 +24,16 @@ app.get("/dist", urlencodedParser, (req, res) => {
   });
 });
 
-// app.post("/add_review", urlencodedParser, (req, res) => {
-//   console.log(req.body);
-//   db.addReview(req.body, (err, data) => {
-//     if (err) {
-//       console.error(err);
-//     } else {
-//       res.send(data);
-//     }
-//   });
-// });
+app.post("/add_review", urlencodedParser, (req, res) => {
+  console.log(req.body);
+  db.addReview(req.body, (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`I'm now listening on port ${PORT}!`);

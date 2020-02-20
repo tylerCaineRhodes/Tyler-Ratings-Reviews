@@ -17,16 +17,6 @@ mongoCommand.on('error', ()=>{
   console.log('nahhh bro, mongo no like dat shit dawg')
 })
 
-//refactor as 1 query with left join
-// const getCurrentItem = (callback) => {
-//   Data.find().limit(20, (err, data) => {
-//     if(err){
-//       console.log('nah can\'t get the stuff from mongo from db')
-//     } else {
-//       callback(null, data);
-//     }
-//   })
-// }
 const getCurrentItem = (callback) => {
   Data.find({id: 100000}, (err, data) => {
     if(err){
@@ -37,16 +27,15 @@ const getCurrentItem = (callback) => {
   }).explain("executionStats")
 }
 
-// const getCurrentItem = (callback) => {
-//   Data.find().limit(20).exec((err, data) => {
-//     if(err){
-//       console.log('nah can\'t get the stuff from mongo from db')
-//     } else {
-//       callback(null, data);
-//     }
-//   })
-// }
-//.explain("executionStats")
+const getBatchofItems = (callback) => {
+  Data.find().limit(20).exec((err, data) => {
+    if(err){
+      console.log('nah can\'t get the stuff from mongo from db')
+    } else {
+      callback(null, data);
+    }
+  })
+}
 
 const addReview = (reviewData, callback) => {
   connection.query(
@@ -60,4 +49,4 @@ const addReview = (reviewData, callback) => {
   );
 };
 
-module.exports = { getCurrentItem, addReview };
+module.exports = { getCurrentItem, addReview, getBatchofItems };
