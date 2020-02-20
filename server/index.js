@@ -4,6 +4,7 @@ const path = require("path");
 const db = require("./db.js");
 var bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
+const compression = require('compression');
 
 const PORT = 8081;
 const app = express();
@@ -11,9 +12,10 @@ const app = express();
 app.use(express.static(path.join(__dirname, "../dist")));
 app.use(cors());
 app.use(express.json());
+app.use(compression());
 
 app.get("/dist", urlencodedParser, (req, res) => {
-  console.log('should be three -->', req.query.productID)
+  // console.log('should be three -->', req.query.productID)
   db.getCurrentItem((err, data) => {
     if (err) {
       console.error(err);
@@ -33,7 +35,6 @@ app.get("/notdist", urlencodedParser, (req, res) => {
     }
   });
 });
-
 
 
 app.post("/add_review", urlencodedParser, (req, res) => {

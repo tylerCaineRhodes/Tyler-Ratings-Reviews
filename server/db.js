@@ -44,7 +44,7 @@ const getCurrentProduct = (callback) => {
 }
 
 const getCurrentItem = (callback) => {
-  client.query(`select * from reviews limit 10`, (err, data) => {
+  client.query(`select * from reviews limit 10 offset 100000`, (err, data) => {
     if(err){
       console.log('nah, you can\'t get the shit from postgres dawg');
     } else {
